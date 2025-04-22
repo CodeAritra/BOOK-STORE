@@ -6,7 +6,7 @@ import multer from 'multer';
 // Set storage location
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'images'); // this should be a folder in your root/backend directory
+    cb(null, 'uploads'); // this should be a folder in your root/backend directory
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname);
@@ -18,7 +18,7 @@ const upload = multer({ storage });
 export const createProduct = async (req, res) => {
   try {
     const { bookname, price, quantity } = req.body;
-    const image = req.file ? `/images/${req.file.filename}` : '';
+    const image = req.file ? `uploads/${req.file.filename}` : '';
 
     let product = await productModel.create({
       bookname,
