@@ -1,7 +1,5 @@
 #.gitignore
 .env
-utils
-
 # Logs
 logs
 *.log
