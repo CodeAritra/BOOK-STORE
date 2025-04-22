@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { url } from "../../utils/url.js";
+import { url } from "../../utils/url";
 
 const UserOrder = () => {
   const [orders, setOrders] = useState([]);

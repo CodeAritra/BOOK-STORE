@@ -12,7 +12,7 @@ import Layout from "../layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { url } from "../utils/url.js";
+import { url } from "../utils/url";
 
 
 const CartPage = () => {

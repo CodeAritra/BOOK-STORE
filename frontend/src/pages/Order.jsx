@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Layout from "../layout/Layout";
 import axios from "axios";
-import { url } from "../utils/url.js";
+import { url } from "../utils/url";
 
 
 const OrderPage = () => {

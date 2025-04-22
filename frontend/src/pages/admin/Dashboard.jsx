@@ -15,7 +15,7 @@ import {
 import Layout from "../../layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { url } from "../../utils/url.js";
+import { url } from "../../utils/url";
 
 
 const Dashboard = () => {
