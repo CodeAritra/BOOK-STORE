@@ -11,7 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Layout from "../layout/Layout";
 import axios from "axios";
 import {toast} from "react-toastify";
-import { url } from "../utils/url";
+import { url } from "../utils/url.js";
+
 
 const SignupPage = () => {
   const navigate = useNavigate();

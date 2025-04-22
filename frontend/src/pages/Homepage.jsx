@@ -16,7 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Layout from "../layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { url } from "../utils/url";
+import { url } from "../utils/url.js";
 import ProductContext from "../context/productContext/productContext";
 
 const HomePage = () => {

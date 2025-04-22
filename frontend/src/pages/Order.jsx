@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Table,
@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import Layout from "../layout/Layout";
 import axios from "axios";
-import { url } from "../utils/url";
+import { url } from "../utils/url.js";
+
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);

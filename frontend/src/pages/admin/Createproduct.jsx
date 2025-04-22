@@ -5,7 +5,8 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "axios";
 import img from "../../../assests/default_product_image.png"
-import { url } from "../../utils/url";
+import { url } from "../../utils/url.js";
+
 
 const Createproduct = () => {
   const navigate = useNavigate();

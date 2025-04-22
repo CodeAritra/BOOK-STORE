@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -12,7 +12,8 @@ import Layout from "../layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { url } from "../utils/url";
+import { url } from "../utils/url.js";
+
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);

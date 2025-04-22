@@ -14,7 +14,8 @@ import Layout from "../layout/Layout";
 import { toast } from "react-toastify";
 import axios from "axios";
 import authContext from "../context/authContext/authContext";
-import { url } from "../utils/url";
+import { url } from "../utils/url.js";
+
 
 const LoginPage = () => {
   const navigate = useNavigate();
