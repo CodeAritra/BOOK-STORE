@@ -90,7 +90,7 @@ const HomePage = () => {
                     <CardMedia
                       component="img"
                       alt={product.bookname}
-                      image={`${url}${product.img}`}
+                      image={`${product.img}`}
                       title={product.bookname}
                       style={{
                         height: "200px",

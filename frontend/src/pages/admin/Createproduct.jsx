@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import {  useState } from "react";
 import Layout from "../../layout/Layout";
 import { TextField, Button, Paper, Grid, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "axios";
-import img from "../../../assests/default_product_image.png"
+import img from "../../../assests/default_product_image.png";
 import { url } from "../../utils/url";
-
 
 const Createproduct = () => {
   const navigate = useNavigate();
@@ -49,6 +48,9 @@ const Createproduct = () => {
     if (imageFile) {
       formData.append("image", imageFile);
     }
+
+    console.log("Form = ", formData);
+
 
     try {
       const { data } = await axios.post(
@@ -93,7 +95,12 @@ const Createproduct = () => {
             <Grid item xs={12}>
               <Button variant="contained" component="label">
                 Upload Image
-                <input type="file" accept="image/*" hidden onChange={handleFileChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleFileChange}
+                />
               </Button>
             </Grid>
 

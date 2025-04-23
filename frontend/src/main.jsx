@@ -15,7 +15,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <ProductProvider>
           <CssBaseline />
           <App />
-          <ToastContainer />
+          <ToastContainer
+            position="bottom-center"
+            autoClose={1000} // ⏳ default for all toasts
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnHover
+            draggable
+          />
         </ProductProvider>
       </AuthProvider>
     </BrowserRouter>

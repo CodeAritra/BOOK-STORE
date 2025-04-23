@@ -1,24 +1,11 @@
 import productModel from "../models/Product.js";
 import slugify from "slugify";
-import path from "path";
-import multer from 'multer';
-
-// Set storage location
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads'); // this should be a folder in your root/backend directory
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-
-const upload = multer({ storage });
 
 export const createProduct = async (req, res) => {
   try {
     const { bookname, price, quantity } = req.body;
-    const image = req.file ? `uploads/${req.file.filename}` : '';
+    // const image = req.file ? `uploads/${req.file.filename}` : '';
+    const image = req.file?.path; // Cloudinary returns the image URL here
 
     let product = await productModel.create({
       bookname,

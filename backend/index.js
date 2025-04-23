@@ -1,6 +1,10 @@
+// import { configDotenv } from "dotenv";
+// configDotenv();
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import connectDB from "./db.js";
-import { configDotenv } from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import UserRoute from "./Routes/UserRoute.js"
@@ -10,7 +14,6 @@ import orderRoute from "./Routes/orderRoute.js"
 import path from "path"
 import { fileURLToPath } from 'url';
 
-configDotenv();
 connectDB();
 
 const app = express();

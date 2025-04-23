@@ -40,7 +40,7 @@ const Dashboard = () => {
   //   console.log("products = ", products);
   // }, []);
 
-  const remove = async (id) => {
+const remove = async (id) => {
     const token = JSON.parse(localStorage.getItem("auth")).token;
 
     try {
@@ -93,7 +93,7 @@ const Dashboard = () => {
                           <CardMedia
                             component="img"
                             alt={product.bookname}
-                            image={`${url}${product.img}`}
+                            image={`${product.img}`}
                             title={product.bookname}
                             sx={{
                               width: { xs: "5rem", md: "9rem" },
