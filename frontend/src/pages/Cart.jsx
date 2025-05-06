@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -13,16 +13,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { url } from "../utils/url";
-
+import productContext from "../context/productContext/productContext";
+import Loader from "../components/Loader";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const { loading, setLoading } = useContext(productContext);
   const navigate = useNavigate();
 
   const token = JSON.parse(localStorage.getItem("auth")).token;
 
   const cartData = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(`${url}cart/all`, {
         headers: {
           authorization: `${token}`,
@@ -30,8 +33,11 @@ const CartPage = () => {
       });
       if (data.success) {
         setCartItems(data.cartData);
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
+      toast.error("Error");
       console.log(error);
     }
   };
@@ -51,6 +57,8 @@ const CartPage = () => {
 
   const remove = async (id) => {
     try {
+      setLoading(true);
+
       const { data } = await axios.delete(`${url}cart/remove/${id}`, {
         headers: {
           authorization: `${token}`,
@@ -58,6 +66,8 @@ const CartPage = () => {
       });
       if (data.success) {
         setCartItems(data.user.cartData);
+        setLoading(false);
+
         toast.success(data.message);
       } else {
         toast.error(data.message);
@@ -73,6 +83,8 @@ const CartPage = () => {
       amount: total,
     };
     try {
+      setLoading(true);
+
       let { data } = await axios.post(`${url}order/create-order`, orderdata, {
         headers: {
           authorization: `${token}`,
@@ -97,71 +109,80 @@ const CartPage = () => {
         },
       };
 
+      setLoading(false);
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
+
       toast.success(data.message);
       navigate("/order");
     } catch (error) {
+      setLoading(false);
+
       console.log(error);
+      toast.error("Error occured");
     }
   };
 
   return (
     <Layout>
-      <Container>
-        {cartItems.length > 0 ? (
-          <div>
-            <Typography variant="h4" component="h1" gutterBottom>
-              Shopping Cart
-            </Typography>
-            <Grid container spacing={4}>
-              {cartItems.map((item) => (
-                <Grid item key={item._id} xs={12} md={6}>
-                  <Card>
-                    <Grid container>
-                      <Grid item xs={8}>
-                        <CardContent>
-                          <Typography variant="h5" component="h2">
-                            {item.bookname}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                          >
-                            RS. {item.price} x {item.quantity}
-                          </Typography>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            style={{ marginTop: "10px" }}
-                            onClick={() => remove(item.id)}
-                          >
-                            Remove
-                          </Button>
-                        </CardContent>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Container>
+          {cartItems.length > 0 ? (
+            <div>
+              <Typography variant="h4" component="h1" gutterBottom>
+                Shopping Cart
+              </Typography>
+              <Grid container spacing={4}>
+                {cartItems.map((item) => (
+                  <Grid item key={item._id} xs={12} md={6}>
+                    <Card>
+                      <Grid container>
+                        <Grid item xs={8}>
+                          <CardContent>
+                            <Typography variant="h5" component="h2">
+                              {item.bookname}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                            >
+                              RS. {item.price} x {item.quantity}
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginTop: "10px" }}
+                              onClick={() => remove(item.id)}
+                            >
+                              Remove
+                            </Button>
+                          </CardContent>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-            <Box mt={4}>
-              <Typography variant="h5">Total: RS. {total}</Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: "10px" }}
-                onClick={handlepayment}
-              >
-                Checkout
-              </Button>
-            </Box>
-          </div>
-        ) : (
-          <Typography variant="h4">Cart is empty</Typography>
-        )}
-      </Container>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+              <Box mt={4}>
+                <Typography variant="h5">Total: RS. {total}</Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: "10px" }}
+                  onClick={handlepayment}
+                >
+                  Checkout
+                </Button>
+              </Box>
+            </div>
+          ) : (
+            <Typography variant="h4">Cart is empty</Typography>
+          )}
+        </Container>
+      )}
     </Layout>
   );
 };

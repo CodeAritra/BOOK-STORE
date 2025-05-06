@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   Container,
   Typography,
@@ -15,11 +15,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import authContext from "../context/authContext/authContext";
 import { url } from "../utils/url";
-
+import productContext from "../context/productContext/productContext";
+import Loader from "../components/Loader";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { auth, setAuth } = useContext(authContext);
+  const { loading, setLoading } = useContext(productContext);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -36,35 +38,36 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${url}auth/login`,
-        formData
-      );
+      setLoading(true);
+      const { data } = await axios.post(`${url}auth/login`, formData);
       //  console.log(data);
       if (data.success) {
         setAuth({ user: data.user, token: data.token });
+        setLoading(false);
         toast.success(data.message);
-        navigate("/")
+        navigate("/");
         const parsed = JSON.stringify(data);
         localStorage.setItem("auth", parsed);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
       toast.error(error);
     }
   };
-//   useEffect(() => {
-//     console.log(formData);
-//   }, [formData]);
+  //   useEffect(() => {
+  //     console.log(formData);
+  //   }, [formData]);
 
-//   useEffect(() => {
-//     console.log(auth);
-//   }, [auth]);
+  //   useEffect(() => {
+  //     console.log(auth);
+  //   }, [auth]);
 
   return (
     <Layout>
+      {loading && <Loader />}
       <Container maxWidth="xs" sx={{ marginTop: "1rem" }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
           Log In

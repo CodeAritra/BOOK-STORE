@@ -1,4 +1,4 @@
-import  {  useState } from "react";
+import { useContext, useState } from "react";
 import {
   Container,
   Typography,
@@ -10,12 +10,14 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../layout/Layout";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { url } from "../utils/url";
-
+import Loader from "../components/Loader";
+import productContext from "../context/productContext/productContext";
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const { loading, setLoading } = useContext(productContext);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -33,17 +35,18 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${url}auth/signup`,
-        formData
-      );
+      setLoading(true);
+
+      const { data } = await axios.post(`${url}auth/signup`, formData);
       if (data.success) {
+        setLoading(false);
         toast.success(data.message);
         navigate("/login");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       toast.error(error);
       console.log(error);
     }
@@ -55,6 +58,7 @@ const SignupPage = () => {
 
   return (
     <Layout title={"Book Store - Sign Up"}>
+      {loading && <Loader/>}
       <Container maxWidth="xs" sx={{ marginTop: "1rem" }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
           Sign Up

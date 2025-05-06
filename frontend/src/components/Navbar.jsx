@@ -1,4 +1,4 @@
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -68,7 +68,6 @@ const Navbar = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     console.log(e.target.value);
-    
   };
 
   const handleClick = (event) => {
@@ -116,11 +115,18 @@ const Navbar = () => {
           <IconButton color="inherit" component={Link} to="/">
             <HomeIcon />
           </IconButton>
-          {auth?.user?.role !== 1 && (
-            <IconButton color="inherit" component={Link} to="/cart">
-              <ShoppingCartIcon />
-            </IconButton>
-          )}
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              if (!auth?.user) {
+                toast.error("Please login to view your cart.");
+              } else {
+                navigate("/cart");
+              }
+            }}
+          >
+            <ShoppingCartIcon />
+          </IconButton>
 
           {auth?.user ? (
             <>

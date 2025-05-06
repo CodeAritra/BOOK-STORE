@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useContext, useState } from "react";
 import Layout from "../../layout/Layout";
 import { TextField, Button, Paper, Grid, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import img from "../../../assests/default_product_image.png";
 import { url } from "../../utils/url";
+import productContext from "../../context/productContext/productContext";
+import Loader from "../../components/Loader";
 
 const Createproduct = () => {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const Createproduct = () => {
 
   const [imageFile, setImageFile] = useState(null);
   const [image, setImage] = useState(null);
+  const { loading, setLoading } = useContext(productContext);
 
   const handlechange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
@@ -51,8 +54,8 @@ const Createproduct = () => {
 
     console.log("Form = ", formData);
 
-
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `${url}product/create-product`,
         formData,
@@ -64,16 +67,19 @@ const Createproduct = () => {
       );
       console.log(data);
       if (data.success) {
+        setLoading(false);
         toast.success(data.message);
         navigate("/dashboard");
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
       toast.error(error);
     }
   };
   return (
     <Layout title={"Admin Create Product"}>
+      {loading && <Loader/>}
       <Paper style={{ padding: "16px", margin: "16px" }}>
         <Typography variant="h6" gutterBottom>
           Create Product
